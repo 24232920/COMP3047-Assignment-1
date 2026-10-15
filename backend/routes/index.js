@@ -44,7 +44,7 @@ router.get('/', async function (req, res) {
       latestEvents
     });
   } catch (err) {
-    res.status(500).send(err.message);
+    next(err);
   }
 });
 
@@ -325,5 +325,30 @@ router.post('/event/delete/:id', async function (req, res) {
     res.status(400).json({ message: err.message });
   }
 });
+
+// Unknown GET routes
+router.use(function (req, res, next) {
+  if (req.method === "GET") {
+    return res.status(404).render("404");
+  }
+
+  next();
+});
+
+// Server errors passed with next(err)
+router.use(function (err, req, res, next) {
+  console.error(err);
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  res.status(err.status || 500).render("error", {
+    message: err.message || "An unexpected server error occurred."
+  });
+});
+
+module.exports = router;
+
 
 module.exports = router;
