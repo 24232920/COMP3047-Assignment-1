@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SciFac Events</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="title">
+                <h1 class="title">SciFac Events</h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/venues">Venues</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="event-detail">
+        <div class="event-breadcrumb">
+            <a href="/events">Events</a>
+            <span>/</span>
+            <span>
+                <%= event.eventTitle %>
+            </span>
+        </div>
+
+        <% if (event.eventBanner) { %>
+            <img class="event-hero" src="<%= event.eventBanner %>" alt="<%= event.eventTitle %> banner">
+            <% } %>
+
+                <section class="event-content">
+                    <div class="event-heading">
+                        <div>
+                            <div class="event-badges">
+                                <% if (event.category) { %>
+                                    <span class="tag type-tag">
+                                        <%= event.category %>
+                                    </span>
+                                    <% } %>
+
+                                        <% if (event.status) { %>
+                                            <span class="tag status-tag">
+                                                <%= event.status %>
+                                            </span>
+                                            <% } %>
+
+                                                <% if (event.highlights===true || event.highlights==="true" ||
+                                                    event.highlights==="on" ) { %>
+                                                    <span class="tag highlight-tag">
+                                                        ★ Highlighted
+                                                    </span>
+                                                    <% } %>
+                            </div>
+
+                            <h2>
+                                <%= event.eventTitle %>
+                            </h2>
+                        </div>
+
+                        <a class="edit-btn" href="/event/edit/<%= event._id %>">Edit Event</a>
+                    </div>
+
+                    <div class="event-columns">
+                        <div class="event-description">
+                            <h3>Description</h3>
+                            <p>
+                                <%= event.eventDescription || "No description provided." %>
+                            </p>
+
+                            <% if (event.speaker) { %>
+                                <h3>Organizer / Speaker</h3>
+                                <p>
+                                    <%= event.speaker %>
+                                </p>
+                                <% } %>
+                        </div>
+
+                        <aside class="event-details">
+                            <h3>Event Details</h3>
+
+                            <p>
+                                <strong>Date:</strong><br>
+                                <% if (event.eventDate) { %>
+                                    <%= new Date(event.eventDate).toLocaleString() %>
+                                        <% } else { %>
+                                            Not specified
+                                            <% } %>
+                            </p>
+
+                            <p>
+                                <strong>Capacity:</strong><br>
+                                <%= event.eventCapacity ?? "Not specified" %> attendees
+                            </p>
+
+                            <p>
+                                <strong>Venue:</strong><br>
+                                <% if (venue) { %>
+                                    <a href="/venue/edit/<%= venue._id %>">
+                                        <%= venue.venueName %>
+                                    </a><br>
+                                    <%= venue.venueLocation || "" %>
+                                        <% } else { %>
+                                            <%= event.eventVenue || "No venue specified" %>
+                                                <% } %>
+                            </p>
+                        </aside>
+                    </div>
+                </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>2026 Science Faculty Event Management System. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

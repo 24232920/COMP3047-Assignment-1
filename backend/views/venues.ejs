@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SciFac Events</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div>
+                <h1 class="title">SciFac Events</h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/venues">Venues</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="venue-page-header">
+            <h1>Facilities &amp; Venues</h1>
+            <a class="create-btn" href="/venue/add">Add Venue</a>
+        </div>
+
+
+        <!-- ======================= Venues Grid Section ======================= -->
+
+        <div class="venues-grid">
+            <% for (var venue of venues) { %>
+                <div class="venue-card">
+                    <h2>
+                        <%= venue.venueName %>
+                    </h2>
+                    <p class="venue-info"><i class="fa-solid fa-location-dot"></i>
+                        <%= venue.venueLocation %>
+                    </p>
+                    <p class="venue-info-s"><i class="fa-solid fa-users"></i>
+                        Max Capacity: <%= venue.venueCapacity %>
+                    </p>
+
+                    <% const facilityLabels={ "projector" : "Projector" , "whiteboard" : "Whiteboard" , "microphone"
+                        : "Microphone" , "wifi" : "WiFi" , "air-conditioning" : "Air Conditioning"
+                        , "video-conferencing" : "Video Conferencing" , "sound-system" : "Sound System" , "parking"
+                        : "Parking" , "wheelchair-access" : "Wheelchair Access" }; const legacyFacilities=[
+                        ["facilities1", "projector" ], ["facilities2", "whiteboard" ], ["facilities3", "microphone" ],
+                        ["facilities4", "wifi" ], ["facilities5", "air-conditioning" ],
+                        ["facilities6", "video-conferencing" ], ["facilities7", "sound-system" ],
+                        ["facilities8", "parking" ], ["facilities9", "wheelchair-access" ] ]; const
+                        selectedFacilities=Array.isArray(venue.facilities) ? venue.facilities : typeof
+                        venue.facilities==="string" ? [venue.facilities] : legacyFacilities .filter(([key, value])=>
+                        venue[key] === value || venue[key] === true || venue[key] === "on"
+                        )
+                        .map(([, value]) => value);
+                        %>
+
+                        <div class="facility-badges">
+                            <% if (selectedFacilities.length> 0) { %>
+                                <% selectedFacilities.forEach(function (facility) { %>
+                                    <span class="facility-badge">
+                                        <%= facilityLabels[facility] || facility %>
+                                    </span>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <span class="empty-facilities">No facilities selected</span>
+                                            <% } %>
+                        </div>
+
+                        <!-- <div id="preview-facilities" class="facility-badges">
+                        <span class="empty-facilities">No facilities selected</span>
+                        
+                    </div> -->
+
+                        <p class="venue-info">
+                            <%= venue.venueDescription %>
+                        </p>
+                        <div class="card-actions">
+                            <a href="/venue/edit/<%= venue._id %>" class="view-btn">Edit Venue</a>
+                        </div>
+                </div>
+                <% } %>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>2026 Science Faculty Event Management System. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

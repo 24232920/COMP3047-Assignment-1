@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SciFac Events</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div>
+                <h1 class="title">SciFac Events</h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/venues">Venues</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="events-page-header">
+            <h1>All Events</h1>
+            <a class="create-btn" href="/event/add">Create Event</a>
+        </div>
+
+
+        <!-- ======================= Events Grid Section ======================= -->
+
+        <div class="events-grid">
+            <% for (var event of events) { %>
+                <div class="event-card">
+                    <div class="card-top">
+                        <span class="tag status-tag">
+                            <%= event.status %>
+                        </span>
+                        <span class="tag type-tag">
+                            <%= event.category %>
+                        </span>
+                    </div>
+                    <h2>
+                        <%= event.eventTitle %>
+                    </h2>
+                    <p class="event-info"><i class="calendar"></i>
+                        <%= event.eventDate %>
+                    </p>
+                    <p class="event-info"><i class="fa-solid fa-location-dot"></i>
+                        <%= event.eventVenue %>
+                    </p>
+                    <div class="card-actions">
+                        <a href="/event/detail/<%= event._id %>" class="view-btn">View</a>
+                        <a href="/event/edit/<%= event._id %>" class="icon-btn">
+                            <image
+                                src="https://cdn.iconscout.com/icon/free/png-256/free-edit-icon-svg-download-png-2202989.png?f=webp"
+                                class="icon-btn">
+                        </a>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>2026 Science Faculty Event Management System. All rights reserved.</p>
+    </footer>
+
+
+
+</body>
+
+</html>

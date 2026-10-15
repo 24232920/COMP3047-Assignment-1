@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SciFac Events</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="title">
+                <h1 class="title">SciFac Events</h1>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/venues">Venues</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-page">
+            <h1 class="form-title">Create New Event</h1>
+
+            <!-- =================== Event Form =================== -->
+            <div class="form-container">
+                <form action="/event/add" method="POST">
+
+                    <div class="form-group full-width">
+                        <label for="eventTitle" class="col-sm-2 col-form-label">Title<span
+                                class="required">*</span></label>
+                        <input type="text" class="form-control" id="eventTitle" name="eventTitle" maxlength="200"
+                            required>
+                        <br>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="eventDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="eventDescription" name="eventDescription"></textarea>
+                        <br>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label">Category<span class="required">*</span></label>
+                            <div class="form-group">
+                                <select class="form-select" aria-label="Default select example" name="category"
+                                    onchange="categorySelected(this.value)">
+                                    <option value="" selected>Select a category</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="seminar">Seminar</option>
+                                    <option value="Competition">Competition</option>
+                                    <option value="Career Event">Career Event</option>
+                                    <option value="Social Event">Social Event</option>
+                                    <option value="Conference">Conference</option>
+                                    <option value="Lecture">Lecture</option>
+                                    <option value="Exhibition">Exhibition</option>
+                                    <option value="Cultural">Cultural</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Volunteer">Volunteer</option>
+                                    <option value="Networking">Networking</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventDate" class="col-sm-5 col-form-label">Date & Time<span
+                                    class="required">*</span></label>
+                            <input type="datetime-local" class="form-control" id="eventDate" name="eventDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="speaker" class="col-sm-2 col-form-label">Speaker/Organizer</label>
+                            <input type="text" class="form-control" id="speaker" name="speaker">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eCapacity" class="col-sm-2 col-form-label">Capacity<span
+                                    class="required">*</span></label>
+                            <input type="number" class="form-control" id="eCapacity" name="eventCapacity" min="1"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label">Venue</label>
+                            <div class="form-group">
+                                <select class="form-select" id="eventVenue" name="eventVenue">
+                                    <option value="">No Venue</option>
+
+                                    <% venues.forEach(function (venue) { %>
+                                        <option value="<%= venue.venueName %>" <%=event &&
+                                            event.eventVenue===venue.venueName ? "selected" : "" %>>
+                                            <%= venue.venueName %> (Cap: <%= venue.venueCapacity %>)
+                                        </option>
+                                        <% }); %>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label">Status<span class="required">*</span></label>
+                            <div class="form-group">
+                                <select class="form-select" aria-label="Default select example" name="status"
+                                    onchange="statusSelected(this.value)">
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="in-progress">Ongoing</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="eventBanner" class="col-sm-5 col-form-label">Banner Image URL</label>
+                        <input type="url" class="form-control" id="eventBanner" name="eventBanner">
+                        <br>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="highlights" id="highlights" value="on">
+                        <label class="form-check-label" for="highlights">
+                            Highlight on Homepage Carousel
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Event</button>
+                        <a href="/events" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>2026 Science Faculty Event Management System. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function venueSelected(value) {
+            for (var venue of venues) {
+                var option = document.createElement("option");
+                option.text = venue.venueName;
+                option.value = venue.venueName;
+                eventVenueElem.add(option);
+            }
+        }
+    </script>
+</body>
+
+</html>

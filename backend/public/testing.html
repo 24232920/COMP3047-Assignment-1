@@ -1,0 +1,26 @@
+<section class="home-events-section">
+  <h2 class="section-heading">Upcoming Events</h2>
+
+  <% if (latestEvents.length) { %>
+    <div class="events-grid">
+      <% latestEvents.forEach(function (event) { %>
+        <article class="event-card">
+          <div class="card-top">
+            <span class="tag status-tag"><%= event.status %></span>
+            <span class="tag type-tag"><%= event.category %></span>
+          </div>
+
+          <h3><%= event.eventTitle %></h3>
+          <p class="event-info"><%= event.eventDate %></p>
+          <p class="event-info"><%= event.eventVenue || "No venue" %></p>
+
+          <div class="card-actions">
+            <a href="/event/detail/<%= event._id %>" class="view-btn">View</a>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p class="empty-events">No recent events at the moment.</p>
+  <% } %>
+</section>
